@@ -68,11 +68,12 @@ pub(crate) fn alpha_bleed(img: &mut DynamicImage, thickness: usize) {
                 visited.set(x, y);
                 to_visit.push_back((x, y));
             }
+
+            img.put_pixel(x, y, Rgba([0, 0, 0, 0]));
         }
     }
 
-    let mut cycle_count: usize = 0;
-    loop {
+    for _ in 0..thickness {
         let queue_length = to_visit.len();
         if queue_length == 0 {
             break;
@@ -88,14 +89,12 @@ pub(crate) fn alpha_bleed(img: &mut DynamicImage, thickness: usize) {
 
                 for (x_source, y_source) in adjacent_positions(x, y) {
                     if can_be_sampled.get(x_source, y_source) {
-                        if cycle_count <= thickness {
-                            let source = img.get_pixel(x_source, y_source);
+                        let source = img.get_pixel(x_source, y_source);
 
-                            contributing += 1;
-                            new_color.0 += source[0] as u16;
-                            new_color.1 += source[1] as u16;
-                            new_color.2 += source[2] as u16;
-                        }
+                        contributing += 1;
+                        new_color.0 += source[0] as u16;
+                        new_color.1 += source[1] as u16;
+                        new_color.2 += source[2] as u16;
                     } else if !visited.get(x_source, y_source) {
                         visited.set(x_source, y_source);
                         to_visit.push_back((x_source, y_source));
@@ -122,8 +121,6 @@ pub(crate) fn alpha_bleed(img: &mut DynamicImage, thickness: usize) {
                 can_be_sampled.set(x, y);
             }
         }
-
-        cycle_count = cycle_count + 1;
     }
 }
 
