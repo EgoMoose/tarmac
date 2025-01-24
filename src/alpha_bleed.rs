@@ -2,7 +2,6 @@
 //! their nearest non-transparent neighbor. This fixes artifacting when images
 //! are resized in some contexts.
 
-use core::borrow;
 use std::collections::VecDeque;
 
 use image::{DynamicImage, GenericImage, GenericImageView, Rgba};
