@@ -15,7 +15,7 @@ pub fn get_auth_cookie() -> Option<SecretString> {
 
 pub fn get_csrf_token(roblosecurity_cookie: &SecretString) -> Result<HeaderValue, RobloxApiError> {
     let response = Client::new()
-        .post("https://auth.roblox.com")
+        .post("https://auth.roblox.com/v2/login")
         .header(header::COOKIE, roblosecurity_cookie.expose_secret())
         .header(header::CONTENT_LENGTH, 0)
         .send();
