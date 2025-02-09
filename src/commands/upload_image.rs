@@ -21,7 +21,7 @@ pub fn upload_image(global: GlobalOptions, options: UploadImageOptions) {
 
     let mut img = image::load_from_memory(&image_data).expect("couldn't load image");
 
-    alpha_bleed(&mut img, 1);
+    alpha_bleed(&mut img);
 
     let (width, height) = img.dimensions();
 

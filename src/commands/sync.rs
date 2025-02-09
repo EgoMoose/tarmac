@@ -377,7 +377,7 @@ impl SyncSession {
         for (i, packed_image) in packed_images.iter_mut().enumerate() {
             log::trace!("Bleeding image {}", i);
 
-            alpha_bleed(&mut packed_image.img, 1);
+            alpha_bleed(&mut packed_image.img);
         }
 
         log::trace!("Syncing packed images...");
@@ -513,7 +513,7 @@ impl SyncSession {
 
         let mut img = image::load_from_memory(input.contents.as_slice())?;
 
-        alpha_bleed(&mut img, 1);
+        alpha_bleed(&mut img);
 
         let (width, height) = img.dimensions();
 
